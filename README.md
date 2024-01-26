@@ -1,5 +1,4 @@
-# SubScoop - by Nikhil Soni 
-## A Subdomain Enumeration Tool
+# SubScoop - A Subdomain Enumeration Tool
 **SubScoop** is designed to perform subdomain enumeration for a given domain using various subdomain enumeration tools. It utilizes several popular tools to collect subdomains, sort them, find live subdomains, and store the results in separate files.
 
 ## Features
@@ -81,3 +80,6 @@ subdomains_sorted.txt: Contains sorted and unique subdomains.
 live_subdomains.txt: Contains live subdomains found using httprobe.
 Disclaimer
 This tool is provided for educational and informational purposes only. Usage of this tool for any malicious activity is strictly prohibited. The developers are not responsible for any misuse of this tool.
+
+## Author: Nikhil Soni
+### Version v1.0
