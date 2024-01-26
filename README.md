@@ -24,7 +24,7 @@ httprobe tool installed.
 ## Usage
 **Clone the repository:**
 ```
-git clone https://github.com/example/subscoop.git
+git clone https://github.com/snipenik/subscoop.git
 ```
 
 **Navigate to the directory:**
