@@ -69,7 +69,7 @@ Python 3 installed.
 Tools like Subfinder, Sublist3r, Gobuster, Amass, Assetfinder, Findomain, SubDomainizer, and subbrute installed and configured properly.
 httprobe tool installed.
 
-Output
+## Output
 subdomains.txt: Contains all the collected subdomains.
 subdomains_sorted.txt: Contains sorted and unique subdomains.
 live_subdomains.txt: Contains live subdomains found using httprobe.
