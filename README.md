@@ -34,7 +34,12 @@ cd subscoop
 
 **Make the script executable:**
 ```
-chmod +x subscoop.sh
+chmod +x subscoop.sh && chmod +x install.sh
+```
+
+**Run the installation file to install all the required tools: (Use sudo)**
+```
+sudo ./install.sh
 ```
 
 **Run the script with the domain as an argument:**
