@@ -1,5 +1,7 @@
+#### SubScoop
+
 ## Subdomain Enumeration Tool
-**This shell script is designed to perform subdomain enumeration for a given domain using various subdomain enumeration tools. It utilizes several popular tools to collect subdomains, sort them, find live subdomains, and store the results in separate files.**
+**SubScoop is designed to perform subdomain enumeration for a given domain using various subdomain enumeration tools. It utilizes several popular tools to collect subdomains, sort them, find live subdomains, and store the results in separate files.**
 
 ## Features
 Enumerates subdomains using the following tools:
