@@ -24,22 +24,22 @@ httprobe tool installed.
 ## Usage
 **Clone the repository:**
 ```
-git clone https://github.com/example/subdomain-enumeration-tool.git
+git clone https://github.com/example/subscoop.git
 ```
 
 **Navigate to the directory:**
 ```
-cd subdomain-enumeration-tool
+cd subscoop
 ```
 
 **Make the script executable:**
 ```
-chmod +x subdomain_enum.sh
+chmod +x subscoop.sh
 ```
 
 **Run the script with the domain as an argument:**
 ```
-./subdomain_enum.sh -i example.com
+./subscoop.sh -i example.com
 ```
 
 **Replace example.com with the target domain.**
@@ -49,7 +49,7 @@ Below is a sample README file outlining the necessary details and instructions f
 Subdomain Enumeration Tool
 This shell script is designed to perform subdomain enumeration for a given domain using various subdomain enumeration tools. It utilizes several popular tools to collect subdomains, sort them, find live subdomains, and store the results in separate files.
 
-Features
+## Features
 Enumerates subdomains using the following tools:
 Subfinder
 Sublist3r
@@ -68,28 +68,6 @@ Linux environment (tested on Ubuntu).
 Python 3 installed.
 Tools like Subfinder, Sublist3r, Gobuster, Amass, Assetfinder, Findomain, SubDomainizer, and subbrute installed and configured properly.
 httprobe tool installed.
-Usage
-Clone the repository:
-
-bash
-Copy code
-git clone https://github.com/example/subdomain-enumeration-tool.git
-Navigate to the directory:
-
-bash
-Copy code
-cd subdomain-enumeration-tool
-Make the script executable:
-
-bash
-Copy code
-chmod +x subdomain_enum.sh
-Run the script with the domain as an argument:
-
-bash
-Copy code
-./subdomain_enum.sh -i example.com
-Replace example.com with the target domain.
 
 Output
 subdomains.txt: Contains all the collected subdomains.
