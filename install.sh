@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Check if GOPATH is set
+# Check if GOPATH is set and install
 if [[ -z "$GOPATH" ]]; then
     echo "GOPATH is not set. Installing Go and setting environment variables..."
     wget https://dl.google.com/go/go1.13.4.linux-amd64.tar.gz
