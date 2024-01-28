@@ -1,6 +1,6 @@
 #!/bin/bash
 
-jp2a --colors --width=100 superman.jp2 | lolcat
+jp2a --colors --width=100 superman.png | lolcat
 cat superman.txt
 
 # Check if a command exists
@@ -19,6 +19,7 @@ check_command_exists knockpy || continue
 check_command_exists findomain || continue
 check_command_exists subdomainizer || continue
 check_command_exists httprobe || continue
+check_command_exists subbrute || continue
 
 # Process command-line arguments
 while getopts ":u:h" opt; do
@@ -26,7 +27,7 @@ while getopts ":u:h" opt; do
         u )
             domain=$OPTARG
             
-            # Perform subdomain enumeration using subfinder, amass, sublist3r, knockpy, findomain, and subdomainizer and save output to subdomains.txt
+            # Perform subdomain enumeration using subfinder, amass, sublist3r, knockpy, findomain, subbrute, and subdomainizer and save output to subdomains.txt
             echo -e "\e[32mPerforming subdomain enumeration...\e[0m"
             printf "\e[1;33m[RUNNING]\e[0m\n"
             subfinder "$domain" -all -silent > subdomains.txt || { echo -e "\e[31mError: subfinder failed.\e[0m"; }
@@ -34,6 +35,7 @@ while getopts ":u:h" opt; do
             sublist3r -d "$domain" >> subdomains.txt || { echo -e "\e[31mError: sublist3r failed.\e[0m"; }
             knockpy "$domain" >> subdomains.txt || { echo -e "\e[31mError: knockpy failed.\e[0m"; }
             findomain -t "$domain" >> subdomains.txt || { echo -e "\e[31mError: findomain failed.\e[0m"; }
+            subbrute "$domain" >> subdomains.txt || { echo -e "\e[31mError: subbrute failed.\e[0m"; }
             subdomainizer -u "$domain" >> subdomains.txt || { echo -e "\e[31mError: subdomainizer failed.\e[0m"; }
             printf "\e[32m[#######################################]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
             echo -e "\e[32mSubdomain enumeration completed. Checking for live hosts...\e[0m"
