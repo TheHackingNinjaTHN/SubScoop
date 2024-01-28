@@ -15,81 +15,82 @@ if [[ -z "$GOPATH" ]]; then
     source ~/.bash_profile
 fi
 
-#Install Python and other dependencies
-sudo apt install python-dnspython -y
-sudo apt install python-pip -y
-sudo apt install python3-pip -y
-sudo apt install python-setuptools -y
-sudo apt install ruby-full -y
-sudo apt install build-essential libssl-dev libffi-dev python-dev -y
+# Install Python and other dependencies
+sudo apt-get install -y python-dnspython python-pip python3-pip python-setuptools ruby-full build-essential libssl-dev libffi-dev python-dev
 
-# Install jp2a
-echo "Installing jp2a..."
-sudo apt-get update
-sudo apt-get install -y jp2a
+# Check and install missing tools
 
-# Install lolcat
-echo "Installing lolcat..."
-sudo apt-get -y install lolcat
+# Function to check if a command exists
+check_command_exists() {
+    command -v "$1" >/dev/null 2>&1
+}
 
-# Install Cargo (Rust package manager)
-echo "Installing Cargo (Rust package manager)..."
-sudo apt-get -y install cargo
+# Function to install a command if it doesn't exist
+install_if_missing() {
+    if ! check_command_exists "$1"; then
+        echo "Installing $1..."
+        sudo apt-get install -y "$1"
+        if [ $? -ne 0 ]; then
+            echo "Failed to install $1. Please install it manually."
+            exit 1
+        fi
+    fi
+}
+
+# List of tools to check and install
+tools=("jp2a" "lolcat" "cargo" "make" "perl")
+
+# Iterate through the tools and install if missing
+for tool in "${tools[@]}"; do
+    install_if_missing "$tool"
+done
 
 # Install Rust
-echo "Installing Rust..."
-yes | curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable
-source $HOME/.cargo/env
-export PATH="$HOME/.cargo/bin:$PATH" >> ~/.bash_profile
+if ! check_command_exists "rustup"; then
+    echo "Installing Rust..."
+    curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable
+    source $HOME/.cargo/env
+    export PATH="$HOME/.cargo/bin:$PATH" >> ~/.bash_profile
+fi
 
-# Install Make
-echo "Installing Make..."
-sudo apt-get -y install make
+# Check and install Go tools
+go_tools=("subfinder" "amass" "httprobe")
 
-# Install Perl
-echo "Installing Perl..."
-sudo apt-get -y install perl
+# Iterate through Go tools and install if missing
+for tool in "${go_tools[@]}"; do
+    if ! check_command_exists "$tool"; then
+        echo "Installing $tool..."
+        GO111MODULE=on go install -v github.com/projectdiscovery/$tool/v2/cmd/$tool@latest
+        mv $GOPATH/bin/$tool /usr/bin/
+    fi
+done
 
-# Install Subfinder
-echo "Installing Subfinder..."
-GO111MODULE=on go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
-mv $GOPATH/bin/subfinder /usr/bin/
+# Check and install Python tools
+python_tools=("sublist3r" "SubDomainizer")
 
-# Install Sublist3r
-echo "Installing Sublist3r..."
-pip install sublist3r
-mv /usr/local/bin/sublist3r /usr/bin/
-
-# Install SubDomainizer
-echo "Installing SubDomainizer..."
-git clone https://github.com/nsonaniya2010/SubDomainizer.git
-cd SubDomainizer
-pip install -r requirements.txt
-chmod +x SubDomainizer.py
-mv SubDomainizer.py /usr/bin/
-
-# Install Subbrute
-echo "Installing Subbrute..."
-git clone https://github.com/TheRook/subbrute.git
-cd subbrute
-chmod +x subbrute.py
-mv subbrute.py /usr/bin/
-
-# Install Amass
-echo "Installing Amass..."
-GO111MODULE=on go install -v github.com/OWASP/Amass/v3/...@latest
-mv $GOPATH/bin/amass /usr/bin/
+# Iterate through Python tools and install if missing
+for tool in "${python_tools[@]}"; do
+    if ! check_command_exists "$tool"; then
+        echo "Installing $tool..."
+        git clone https://github.com/nsonaniya2010/$tool.git
+        cd $tool
+        pip install -r requirements.txt
+        chmod +x ${tool}.py
+        mv ${tool}.py /usr/bin/
+        cd ..
+        rm -rf $tool
+    fi
+done
 
 # Install Findomain
-echo "Installing Findomain..."
-git clone https://github.com/Findomain/Findomain.git
-cd Findomain
-cargo build --release
-mv target/release/findomain /usr/bin/
-
-# Install httprobe
-echo "Installing httprobe..."
-GO111MODULE=on go install -v github.com/tomnomnom/httprobe@latest
-mv $GOPATH/bin/httprobe /usr/bin/
+if ! check_command_exists "findomain"; then
+    echo "Installing Findomain..."
+    git clone https://github.com/Findomain/Findomain.git
+    cd Findomain
+    cargo build --release
+    mv target/release/findomain /usr/bin/
+    cd ..
+    rm -rf Findomain
+fi
 
 echo "Installation completed."
