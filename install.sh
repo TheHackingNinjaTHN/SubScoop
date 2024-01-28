@@ -6,7 +6,6 @@ RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 # Check if GOPATH is set
-: <<'COMMENT'
 if [[ -z "$GOPATH" ]]; then
     echo "GOPATH is not set. Installing Go and setting environment variables..."
     wget https://dl.google.com/go/go1.13.4.linux-amd64.tar.gz
@@ -20,7 +19,6 @@ if [[ -z "$GOPATH" ]]; then
     echo 'export PATH=$GOPATH/bin:$GOROOT/bin:$PATH' >> ~/.bash_profile
     source ~/.bash_profile
 fi
-COMMENT
 
 # Install Python and other dependencies
 sudo apt-get install -y python-dnspython python-pip python3-pip python-setuptools ruby-full build-essential libssl-dev libffi-dev python-dev
