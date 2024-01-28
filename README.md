@@ -44,7 +44,7 @@ sudo ./install.sh
 
 **Run the script with the domain as an argument:**
 ```
-./subscoop.sh -i example.com
+./subscoop.sh -u example.com
 ```
 
 **Replace example.com with the target domain.**
