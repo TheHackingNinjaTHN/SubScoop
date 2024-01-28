@@ -5,7 +5,7 @@ echo -e "Be Patient and have a Scoop of Ice Cream" | lolcat
 echo -e "Version: v1.0             by Nikhil soni" | lolcat
 echo -e "Installing all the required tools and dependencies" | lolcat
 sleep 4s
-echo -e "\e[1;32m[================================================================================================================================================]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 50
+echo -e "\e[1;32m[================================================================================================================================================]" | lolcat |pv -qL 50
 
 jp2a --colors --width=60 subscoop.png 
 echo ":'######:'##::::'##'########::'######::'######::'#######::'#######:'########:: 
@@ -111,4 +111,4 @@ cd subbrute
 sudo cp subbrute.py /usr/bin
 
 
-echo "Installation completed."
+echo -e "Installation completed." | lolcat
