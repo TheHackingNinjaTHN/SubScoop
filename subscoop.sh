@@ -10,7 +10,7 @@ while getopts ":u:h" opt; do
             
             # Perform subdomain enumeration using subfinder, amass, sublist3r, knockpy, findomain, subbrute, and subdomainizer and save output to subdomains.txt
             echo -e "\e[32mPerforming subdomain enumeration...\e[0m"
-            printf "\e[1;33m[Running Subfinder]\e[0m\n"
+            printf "\e[1;33m[Running Subfinder]\e[0m\n \e[32m[#######################################]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
             subfinder -d "$domain" -all -silent > subdomains.txt || { echo -e "\e[31mError: subfinder failed.\e[0m"; }
             printf "\e[1;33m[Running Amass]\e[0m\n \e[32m[#######################################]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
             amass enum -d "$domain" >> subdomains.txt || { echo -e "\e[31mError: amass failed.\e[0m"; }
