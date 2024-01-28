@@ -1,17 +1,13 @@
 #!/bin/bash
 
-# Function to display progress bar
-progress_bar() {
-    local duration=$1
-    local granularity=10
-    local sleep_duration=$(echo "scale=2; $duration / $granularity" | bc)
+# Install jp2a
+echo "Installing jp2a..."
+sudo apt-get update
+sudo apt-get install -y jp2a
 
-    for ((i = 0; i <= granularity; i++)); do
-        printf "\r[%-${granularity}s] %d%%" "###" "$((i * 100 / granularity))"
-        sleep $sleep_duration
-    done
-    printf "\n"
-}
+# Install lolcat
+echo "Installing lolcat..."
+sudo gem install lolcat
 
 # Install Subfinder
 echo "Installing Subfinder..."
