@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Check if GOPATH is set and install
+# Check if GOPATH is set
 if [[ -z "$GOPATH" ]]; then
     echo "GOPATH is not set. Installing Go and setting environment variables..."
     wget https://dl.google.com/go/go1.13.4.linux-amd64.tar.gz
@@ -10,10 +10,18 @@ if [[ -z "$GOPATH" ]]; then
     export GOPATH=$HOME/go
     export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
     echo 'export GOROOT=/usr/local/go' >> ~/.bash_profile
-    echo 'export GOPATH=$HOME/go' >> ~/.bash_profile			
-    echo 'export PATH=$GOPATH/bin:$GOROOT/bin:$PATH' >> ~/.bash_profile	
+    echo 'export GOPATH=$HOME/go' >> ~/.bash_profile
+    echo 'export PATH=$GOPATH/bin:$GOROOT/bin:$PATH' >> ~/.bash_profile
     source ~/.bash_profile
 fi
+
+#Install Python and other dependencies
+sudo apt install python-dnspython -y
+sudo apt install python-pip -y
+sudo apt install python3-pip -y
+sudo apt install python-setuptools -y
+sudo apt install ruby-full -y
+sudo apt install build-essential libssl-dev libffi-dev python-dev -y
 
 # Install jp2a
 echo "Installing jp2a..."
@@ -23,6 +31,24 @@ sudo apt-get install -y jp2a
 # Install lolcat
 echo "Installing lolcat..."
 sudo apt-get -y install lolcat
+
+# Install Cargo (Rust package manager)
+echo "Installing Cargo (Rust package manager)..."
+sudo apt-get -y install cargo
+
+# Install Rust
+echo "Installing Rust..."
+yes | curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable
+source $HOME/.cargo/env
+export PATH="$HOME/.cargo/bin:$PATH" >> ~/.bash_profile
+
+# Install Make
+echo "Installing Make..."
+sudo apt-get -y install make
+
+# Install Perl
+echo "Installing Perl..."
+sudo apt-get -y install perl
 
 # Install Subfinder
 echo "Installing Subfinder..."
