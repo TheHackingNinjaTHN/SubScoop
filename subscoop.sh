@@ -1,6 +1,6 @@
 #!/bin/bash
 
-jp2a --colors --width=60 subscoop.png
+jp2a --colors --width=60 subscoop.png 
 echo ":'######:'##::::'##'########::'######::'######::'#######::'#######:'########:: 
 '##... ##:##:::: ##:##.... ##'##... ##'##... ##'##.... ##'##.... ##:##.... ##:
  ##:::..::##:::: ##:##:::: ##:##:::..::##:::..::##:::: ##:##:::: ##:##:::: ##:
@@ -9,7 +9,7 @@ echo ":'######:'##::::'##'########::'######::'######::'#######::'#######:'######
 '##::: ##:##:::: ##:##:::: ##'##::: ##:##::: ##:##:::: ##:##:::: ##:##::::::::
 . ######:. #######::########:. ######:. ######:. #######:. #######::##::::::::
 :......:::.......::........:::......:::......:::.......:::.......::..:::::::::" | lolcat
-echo -e "\e[1;33mVersion: v1.00                                by Nikhil soni"                 
+echo -e  "\e[1;33mVersion: v1.00                                 by Nikhil soni" 
 echo
 echo
 echo
@@ -32,16 +32,16 @@ while getopts ":u:h" opt; do
             /sublist3r/sublist3r.py -d "$domain" >> subdomains.txt || { echo -e "\e[31mError: sublist3r failed.\e[0m"; }
             printf "\e[1;32m[#######################################]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
             printf "\e[1;33m[Running Knockpy]\e[0m"
-            knockpy "$domain" -silent >> subdomains.txt || { echo -e "\e[31mError: knockpy failed.\e[0m"; }
+            knockpy "$domain" >> subdomains.txt || { echo -e "\e[31mError: knockpy failed.\e[0m"; }
             printf "\e[1;32m[#######################################]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
             printf "\e[1;33m[Running Findomain]\e[0m"
             findomain -t "$domain" >> subdomains.txt || { echo -e "\e[31mError: findomain failed.\e[0m"; }
             printf "\e[1;32m[#######################################]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
-            printf "\e[1;33m[Running Subbrute]\e[0m"
-            subbrute.py "$domain" >> subdomains.txt || { echo -e "\e[31mError: subbrute failed.\e[0m"; }
-            printf "\e[1;32m[#######################################]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
+            # printf "\e[1;33m[Running Subbrute]\e[0m"
+            # subbrute.py "$domain" >> subdomains.txt || { echo -e "\e[31mError: subbrute failed.\e[0m"; }
+            # printf "\e[1;32m[#######################################]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
             printf "\e[1;33m[Running SubDomainizer]\e[0m"
-            subdomainizer -u http://"$domain" >> subdomains.txt || { echo -e "\e[31mError: subdomainizer failed.\e[0m"; }
+            SubDomainizer.py -u "$domain" >> subdomains.txt || { echo -e "\e[31mError: subdomainizer failed.\e[0m"; }
             printf "\e[1;32m[#######################################]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
             printf "[Subdomain Enumeration Completed]  \e[32m[#######################################]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
             echo
@@ -52,7 +52,12 @@ while getopts ":u:h" opt; do
             # Sorting and filtring uniq subdomains
             printf "\e[1;33m[Filtering Unique SubDomains]\e[0m\n"
             cat subdomains.txt | sort -u | uniq > uniqsubs.txt
-
+	           printf "\e[1;32m[#######################################]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
+            echo
+            echo
+            sleep 0.5
+            echo
+            echo
             # Use httprobe to filter out live hosts from subdomains.txt
             printf "\e[1;33m[Filtering Live SubDomains]\e[0m\n"
             cat uniqsubs.txt | httprobe > live_hosts.txt || { echo -e "\e[31mError: httprobe failed.\e[0m"; }
