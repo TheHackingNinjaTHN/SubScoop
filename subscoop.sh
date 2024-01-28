@@ -1,6 +1,6 @@
 #!/bin/bash
 
-jp2a --colors --width=60 subscoop.png | lolcat
+jp2a --colors --width=60 subscoop.png
 
 # Process command-line arguments
 while getopts ":u:h" opt; do
