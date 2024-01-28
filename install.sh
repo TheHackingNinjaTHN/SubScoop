@@ -100,6 +100,10 @@ git clone https://github.com/aboul3la/Sublist3r.git
 cd Sublist3r
 sudo pip install -r requirements.txt
 
+# Install Subbrute
+git clone https://github.com/TheRook/subbrute.git
+cd subbrute
+sudo cp subbrute.py /usr/bin
 
 
 echo "Installation completed."
