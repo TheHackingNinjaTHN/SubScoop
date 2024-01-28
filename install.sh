@@ -1,9 +1,22 @@
 #!/bin/bash
 
-# Color codes
-GREEN='\033[0;32m'
-RED='\033[0;31m'
-NC='\033[0m' # No Color
+echo -e "Installing all the required tools and dependencies" | lolcat
+echo -e "Be Patient and have a Scoop of Ice Cream" | lolcat
+echo -e "Version: v1.0             by Nikhil soni" | lolcat
+echo -e "Installing all the required tools and dependencies" | lolcat
+sleep 4s
+echo -e "\e[1;32m[================================================================================================================================================]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 50
+
+jp2a --colors --width=60 subscoop.png 
+echo ":'######:'##::::'##'########::'######::'######::'#######::'#######:'########:: 
+'##... ##:##:::: ##:##.... ##'##... ##'##... ##'##.... ##'##.... ##:##.... ##:
+ ##:::..::##:::: ##:##:::: ##:##:::..::##:::..::##:::: ##:##:::: ##:##:::: ##:
+. ######::##:::: ##:########:. ######::##:::::::##:::: ##:##:::: ##:########::
+:..... ##:##:::: ##:##.... ##:..... ##:##:::::::##:::: ##:##:::: ##:##.....:::
+'##::: ##:##:::: ##:##:::: ##'##::: ##:##::: ##:##:::: ##:##:::: ##:##::::::::
+. ######:. #######::########:. ######:. ######:. #######:. #######::##::::::::
+:......:::.......::........:::......:::......:::.......:::.......::..:::::::::" | lolcat
+
 
 # Check if GOPATH is set
 if [[ -z "$GOPATH" ]]; then
@@ -23,27 +36,21 @@ fi
 # Install Python and other dependencies
 sudo apt-get install -y python-dnspython python-pip python3-pip python-setuptools ruby-full build-essential libssl-dev libffi-dev python-dev
 
-# Function to install a command if it doesn't exist
-install_if_missing() {
-    if ! command -v "$1" &>/dev/null; then
-        echo -e "${RED}Installing $1...${NC}"
-        sudo apt-get install -y "$1"
-        if [ $? -ne 0 ]; then
-            echo -e "${RED}Failed to install $1. Please install it manually.${NC}"
-            exit 1
-        fi
-    else
-        echo -e "${GREEN}$1 is installed.${NC}"
-    fi
-}
 
-# List of tools to check and install
-tools=("jp2a" "lolcat" "cargo" "make" "perl")
+# Install jp2a
+sudo apt -y install jp2a
 
-# Iterate through the tools and install if missing
-for tool in "${tools[@]}"; do
-    install_if_missing "$tool"
-done
+# Install lolcat
+sudo apt-get -y install lolcat
+
+# Install Cargo
+sudo apt-get -y install cargo
+
+# Install make
+sudo apt-get -y install make
+
+# Install Perl
+sudo apt-get -y install perl
 
 # Install Rust
 if ! command -v "rustup" &>/dev/null; then
@@ -55,39 +62,37 @@ else
     echo -e "${GREEN}Rust is installed.${NC}"
 fi
 
-# Check and install Go tools
- go_tools=("subfinder" "amass" "httprobe")
- Iterate through Go tools and install if missing
- for tool in "${go_tools[@]}"; do
-     install_if_missing "$tool"
- done
+# Install Subfinder
+GO111MODULE=on go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+sudo mv /root/go/bin/subfinder /usr/bin
+
+# Install Amass
+git clone https://github.com/mrnitesh/amass.git
+cd amass
+chmod+x script.sh
+sudo ./script.sh
+
+# Install httprobe
+go install -y github.com/tomnomnom/httprobe
+sudo cp /root/go/bin/httprobe /usr/bin
 
 # Install Sublist3r
 # sudo apt-get -y install sublist3r
 
 
 # Install Findomain
-if ! check_command_exists "findomain"; then
-    echo "Installing Findomain..."
-    git clone https://github.com/Findomain/Findomain.git
-    cd Findomain
-    cargo build --release
-    mv target/release/findomain /usr/bin/
-    cd ..
-    rm -rf Findomain
-    if [ $? -ne 0 ]; then
-        echo -e "\033[0;31mFailed to install Findomain. Please install it manually.\033[0m"
-        exit 1
-    else
-        echo -e "\033[0;32mFindomain is installed.\033[0m"/
-    fi
-fi
+git clone https://github.com/Findomain/Findomain.git
+cd Findomain
+cargo build --release
+mv target/release/findomain /usr/bin/
+cd ..
+rm -rf Findomain
 
 # Install SubDomainizer
 git clone https://github.com/nsonaniya2010/SubDomainizer.git
 cd SubDomainizer
 pip3 install -r requirements.txt
-mv SubDomainizer.py /usr/bin/
+sudo mv SubDomainizer.py /usr/bin/
 
 # Install Knockpy
 git clone https://github.com/guelfoweb/knock.git
