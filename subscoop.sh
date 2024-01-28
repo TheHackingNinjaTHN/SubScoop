@@ -24,35 +24,35 @@ while getopts ":u:h" opt; do
             echo -e "\e[32mPerforming subdomain enumeration...\e[0m"
             printf "\e[1;33m[Running Subfinder]\e[0m"
             subfinder -d "$domain" -all -silent > subdomains.txt || { echo -e "\e[31mError: subfinder failed.\e[0m"; }
-            printf "\e[1;32m[#######################################]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
+            printf "\e[1;32m[====================================================================]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
             printf "\e[1;33m[Running Amass]\e[0m"
             amass enum -d "$domain" >> subdomains.txt || { echo -e "\e[31mError: amass failed.\e[0m"; }
-            printf "\e[1;32m[#######################################]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
-            printf "\e[1;33m[Running Sublist3r]\e[0m"
+            printf "\e[1;32m[====================================================================]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
+            #printf "\e[1;33m[Running Sublist3r]\e[0m"
             #/sublist3r/sublist3r.py -d "$domain" >> subdomains.txt || { echo -e "\e[31mError: sublist3r failed.\e[0m"; }
-            printf "\e[1;32m[#######################################]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
+            #printf "\e[1;32m[====================================================================]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
             printf "\e[1;33m[Running Knockpy]\e[0m"
             knockpy "$domain" >> subdomains.txt || { echo -e "\e[31mError: knockpy failed.\e[0m"; }
-            printf "\e[1;32m[#######################################]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
+            printf "\e[1;32m[====================================================================]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
             printf "\e[1;33m[Running Findomain]\e[0m"
             findomain -t "$domain" >> subdomains.txt || { echo -e "\e[31mError: findomain failed.\e[0m"; }
-            printf "\e[1;32m[#######################################]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
+            printf "\e[1;32m[====================================================================]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
             # printf "\e[1;33m[Running Subbrute]\e[0m"
             # subbrute.py "$domain" >> subdomains.txt || { echo -e "\e[31mError: subbrute failed.\e[0m"; }
-            # printf "\e[1;32m[#######################################]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
+            # printf "\e[1;32m[====================================================================]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
             printf "\e[1;33m[Running SubDomainizer]\e[0m"
             SubDomainizer.py -u "$domain" >> subdomains.txt || { echo -e "\e[31mError: subdomainizer failed.\e[0m"; }
-            printf "\e[1;32m[#######################################]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
-            printf "[Subdomain Enumeration Completed]  \e[32m[#######################################]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
+            printf "\e[1;32m[====================================================================]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
+            printf "\e[32m[++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++]\e[0m \e[1;31m[Subdomain Enumeration Completed].\e[0m\n\n" | pv -qL 35
             echo
             echo
-            sleep 0.5
+            sleep 1
             echo
             echo
             # Sorting and filtring uniq subdomains
             printf "\e[1;33m[Filtering Unique SubDomains]\e[0m\n"
             cat subdomains.txt | sort -u | uniq > uniqsubs.txt
-	           printf "\e[1;32m[#######################################]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
+	           printf "\e[1;32m[######################################################################################]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
             echo
             echo
             sleep 0.5
@@ -61,7 +61,7 @@ while getopts ":u:h" opt; do
             # Use httprobe to filter out live hosts from subdomains.txt
             printf "\e[1;33m[Filtering Live SubDomains]\e[0m\n"
             cat uniqsubs.txt | httprobe > live_hosts.txt || { echo -e "\e[31mError: httprobe failed.\e[0m"; }
-            printf "\e[32m[#######################################]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
+            printf "\e[32m[$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
             echo -e "\e[32mLive hosts identification completed. Check 'live_hosts.txt' for results.\e[0m"
             echo
             sleep 0.5
