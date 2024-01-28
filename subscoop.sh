@@ -29,7 +29,7 @@ while getopts ":u:h" opt; do
             amass enum -d "$domain" >> subdomains.txt || { echo -e "\e[31mError: amass failed.\e[0m"; }
             printf "\e[1;32m[#######################################]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
             printf "\e[1;33m[Running Sublist3r]\e[0m"
-            /sublist3r/sublist3r.py -d "$domain" >> subdomains.txt || { echo -e "\e[31mError: sublist3r failed.\e[0m"; }
+            #/sublist3r/sublist3r.py -d "$domain" >> subdomains.txt || { echo -e "\e[31mError: sublist3r failed.\e[0m"; }
             printf "\e[1;32m[#######################################]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
             printf "\e[1;33m[Running Knockpy]\e[0m"
             knockpy "$domain" >> subdomains.txt || { echo -e "\e[31mError: knockpy failed.\e[0m"; }
