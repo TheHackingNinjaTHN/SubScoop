@@ -1,55 +1,65 @@
 #!/bin/bash
 
-# Function to display progress bar
-progress_bar() {
-    local duration=$1
-    local granularity=10
-    local sleep_duration=$(echo "scale=2; $duration / $granularity" | bc)
+# Display Superman image using jp2a
+jp2a --colors --width=100 superman.jp2 | lolcat
+cat superman.txt
 
-    for ((i = 0; i <= granularity; i++)); do
-        printf "\r[%-${granularity}s] %d%%" "$(< /dev/urandom tr -dc '[:alnum:]' | head -c1)" "$((i * 100 / granularity))"
-        sleep $sleep_duration
-    done
-    printf "\n"
+# Check if a command exists
+check_command_exists() {
+    command -v "$1" >/dev/null 2>&1 || {
+        printf "\e[31m$1 command not found. Please install it and try again.\e[0m\n"
+        exit 1
+    }
 }
 
-# Function to perform subdomain enumeration
-subdomain_enum() {
-    local domain="$1"
-    echo "Performing subdomain enumeration for $domain"
-    echo "Using Subfinder..."
-    subfinder -d $domain >> subdomains.txt
-    echo "Using Sublist3r..."
-    sublist3r -d $domain >> subdomains.txt
-    echo "Using SubDomainizer..."
-    python3 SubDomainizer.py -u "http://www.$domain" >> subdomains.txt
-    echo "Using Subbrute..."
-    python3 subbrute.py $domain >> subdomains.txt
-    echo "Using Gobuster..."
-    gobuster dns -d $domain -w /usr/share/wordlists/dirb/common.txt >> subdomains.txt
-    echo "Using Amass..."
-    amass enum -d $domain >> subdomains.txt
-    echo "Using Assetfinder..."
-    assetfinder --subs-only $domain >> subdomains.txt
-    echo "Using Findomain..."
-    findomain -t $domain >> subdomains.txt
-}
+# Check if required commands exist
+check_command_exists subfinder
+check_command_exists amass
+check_command_exists sublist3r
+check_command_exists knockpy
+check_command_exists findomain
+check_command_exists subdomainizer
+check_command_exists httprobe
 
-# Main script
-if [ "$1" == "-i" ] && [ -n "$2" ]; then
-    domain="$2"
-    echo "Starting subdomain enumeration for $domain"
-    subdomain_enum $domain &
-    pid=$!
-    echo "Enumerating subdomains..."
-    progress_bar 60  # Adjust duration as needed
-    wait $pid
-    echo "Subdomain enumeration completed."
-    echo "Sorting subdomains..."
-    sort -u subdomains.txt -o subdomains_sorted.txt
-    echo "Finding live subdomains..."
-    cat subdomains_sorted.txt | httprobe > live_subdomains.txt
-    echo "Task completed. Live subdomains saved in live_subdomains.txt"
-else
-    echo "Usage: tool.sh -i domain.com"
-fi
+# Process command-line arguments
+while getopts ":u:h" opt; do
+    case ${opt} in
+        u )
+            domain=$OPTARG
+            
+            # Perform subdomain enumeration using subfinder, amass, and sublist3r and save output to subdomains.txt
+            echo -e "\e[32mPerforming subdomain enumeration...\e[0m"
+            printf "\e[1;33m[RUNNING]\e[0m\n"
+            subfinder "$domain" -all -silent > subdomains.txt
+            amass enum -d "$domain" >> subdomains.txt
+            sublist3r -d "$domain" >> subdomains.txt
+            printf "\e[32m[#######################################]\e[0m \e[1;31mDone.\e[0m\n\n" | pv -qL 35
+            echo -e "\e[32mSubdomain enumeration completed. Checking for live hosts...\e[0m"
+            echo
+            sleep 0.5
+            echo
+            
+            # Use httprobe to filter out live hosts from subdomains.txt
+            printf "\e[1;33m[RUNNING]\e[0m\n"
+            httprobe < subdomains.txt > live_hosts.txt
+            echo -e "\e[32mLive hosts identification completed. Check 'live_hosts.txt' for results.\e[0m"
+            echo
+            sleep 0.5
+            echo
+            
+            echo -e "\e[35mSubdomain enumeration completed successfully.\e[0m"
+            ;;
+        h )
+            printf "Usage: %s -u domain_name\n" "$0"
+            exit 0
+            ;;
+        \? )
+            printf "\e[31mInvalid option: $OPTARG\e[0m\n"
+            exit 1
+            ;;
+        : )
+            printf "\e[31mInvalid option: $OPTARG requires an argument\e[0m\n"
+            exit 1
+            ;;
+    esac
+done
