@@ -17,21 +17,17 @@ echo ":'######:'##::::'##'########::'######::'######::'#######::'#######:'######
 . ######:. #######::########:. ######:. ######:. #######:. #######::##::::::::
 :......:::.......::........:::......:::......:::.......:::.......::..:::::::::" | lolcat
 
+# First, install the package
+sudo apt install -y golang
 
-# Check if GOPATH is set
-if [[ -z "$GOPATH" ]]; then
-    echo "GOPATH is not set. Installing Go and setting environment variables..."
-    wget https://dl.google.com/go/go1.13.4.linux-amd64.tar.gz
-    sudo tar -xvf go1.13.4.linux-amd64.tar.gz
-    sudo mv go /usr/local
-    export GOROOT=/usr/local/go
-    export GOPATH=$HOME/go
-    export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
-    echo 'export GOROOT=/usr/local/go' >> ~/.bash_profile
-    echo 'export GOPATH=$HOME/go' >> ~/.bash_profile
-    echo 'export PATH=$GOPATH/bin:$GOROOT/bin:$PATH' >> ~/.bash_profile
-    source ~/.bash_profile
-fi
+# Then add the following to your .bashrc
+export GOROOT=/usr/lib/go
+export GOPATH=$HOME/go
+export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+
+# Reload your .bashrc
+source .bashrc
+
 
 # Install Python and other dependencies
 sudo apt-get install -y python-dnspython python-pip python3-pip python-setuptools ruby-full build-essential libssl-dev libffi-dev python-dev
