@@ -17,16 +17,21 @@ echo ":'######:'##::::'##'########::'######::'######::'#######::'#######:'######
 . ######:. #######::########:. ######:. ######:. #######:. #######::##::::::::
 :......:::.......::........:::......:::......:::.......:::.......::..:::::::::" | lolcat
 
-# First, install the package
-sudo apt install -y golang
+# Install GO
+if [[ -z "$GOPATH" ]]; then
+    echo "GOPATH is not set. Installing Go and setting environment variables..."
+    wget https://dl.google.com/go/go1.13.4.linux-amd64.tar.gz
+    sudo tar -xvf go1.13.4.linux-amd64.tar.gz
+    sudo mv go /usr/local
+    export GOROOT=/usr/local/go
+    export GOPATH=$HOME/go
+    export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+    echo 'export GOROOT=/usr/local/go' >> ~/.bash_profile
+    echo 'export GOPATH=$HOME/go' >> ~/.bash_profile
+    echo 'export PATH=$GOPATH/bin:$GOROOT/bin:$PATH' >> ~/.bash_profile
+    source ~/.bash_profile
+fi
 
-# Then add the following to your .bashrc
-export GOROOT=/usr/lib/go
-export GOPATH=$HOME/go
-export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
-
-# Reload your .bashrc
-source .bashrc
 
 
 # Install Python and other dependencies
@@ -39,7 +44,7 @@ sudo apt -y install jp2a
 # Install lolcat
 sudo apt-get -y install lolcat
 
-# Install Cargo
+# Install Cargojp2a
 sudo apt-get -y install cargo
 
 # Install make
@@ -59,7 +64,7 @@ else
 fi
 
 # Install Subfinder
-GO111MODULE=on go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+sudo go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
 sudo mv /root/go/bin/subfinder /usr/bin
 
 # Install Amass
@@ -67,10 +72,11 @@ git clone https://github.com/mrnitesh/amass.git
 cd amass
 chmod+x script.sh
 sudo ./script.sh
+cd ..
 
-# Install httprobe
-go install -y github.com/tomnomnom/httprobe
-sudo cp /root/go/bin/httprobe /usr/bin
+# Install Dnsx
+go install -v github.com/projectdiscovery/dnsx/cmd/dnsx@latest
+sudo cp /root/go/bin/dnsx /usr/bin
 
 # Install Sublist3r
 # sudo apt-get -y install sublist3r
@@ -88,23 +94,29 @@ rm -rf Findomain
 git clone https://github.com/nsonaniya2010/SubDomainizer.git
 cd SubDomainizer
 pip3 install -r requirements.txt
-sudo mv SubDomainizer.py /usr/bin/
+sudo cp SubDomainizer.py /usr/bin/
+cd ..
+
 
 # Install Knockpy
 git clone https://github.com/guelfoweb/knock.git
 cd knock
-python3 setup.py install
-knockpy -v
+pip3 install -r requirements.txt
+sudo cp knockpy.py /usr/bin
+cd ..
 
 # Install Sublist3r
 git clone https://github.com/aboul3la/Sublist3r.git
 cd Sublist3r
 sudo pip install -r requirements.txt
+cp sublist3r.py /usr/bin
+cd ..
 
 # Install Subbrute
 git clone https://github.com/TheRook/subbrute.git
 cd subbrute
+chmod +x subbrute.py
 sudo cp subbrute.py /usr/bin
-
+cd ..
 
 echo -e "Installation completed." | lolcat
