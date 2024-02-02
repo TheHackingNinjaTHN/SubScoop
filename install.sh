@@ -66,6 +66,9 @@ fi
 mkdir -p tools
 cd tools
 
+wget https://github.com/n0kovo/n0kovo_subdomains/blob/main/n0kovo_subdomains_huge.txt
+
+
 # Install dependencies
 sudo apt -y install libcurl4-openssl-dev libxml2 libxml2-dev libxslt1-dev ruby-dev build-essential libgmp-dev zlib1g-dev build-essential libssl-dev libffi-dev libldns-dev jq ruby-full python3-setuptools python3-dnspython rename findutils
 
