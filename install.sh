@@ -62,10 +62,15 @@ if ! command -v "rustup" &>/dev/null; then
 else
     echo -e "${GREEN}Rust is installed.${NC}"
 fi
+# Creating a directory tools
+mkdir -p tools
+cd tools
+
+# Install dependencies
+sudo apt -y install libcurl4-openssl-dev libxml2 libxml2-dev libxslt1-dev ruby-dev build-essential libgmp-dev zlib1g-dev build-essential libssl-dev libffi-dev libldns-dev jq ruby-full python3-setuptools python3-dnspython rename findutils
 
 # Install Subfinder
-sudo go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
-sudo mv /root/go/bin/subfinder /usr/bin
+sudo apt install subfinder -y
 
 # Install Amass
 git clone https://github.com/mrnitesh/amass.git
@@ -79,8 +84,13 @@ go install -v github.com/projectdiscovery/dnsx/cmd/dnsx@latest
 sudo cp /root/go/bin/dnsx /usr/bin
 
 # Install Sublist3r
-# sudo apt-get -y install sublist3r
+git clone https://github.com/aboul3la/Sublist3r.git
+cd sublist3r/
+pip3 install -r requirements.txt
+cd ../
 
+# Install Github-Search
+git clone https://github.com/gwen001/github-search.git
 
 # Install Findomain
 git clone https://github.com/Findomain/Findomain.git
@@ -102,21 +112,7 @@ cd ..
 git clone https://github.com/guelfoweb/knock.git
 cd knock
 pip3 install -r requirements.txt
-sudo cp knockpy.py /usr/bin
 cd ..
 
-# Install Sublist3r
-git clone https://github.com/aboul3la/Sublist3r.git
-cd Sublist3r
-sudo pip install -r requirements.txt
-cp sublist3r.py /usr/bin
-cd ..
-
-# Install Subbrute
-git clone https://github.com/TheRook/subbrute.git
-cd subbrute
-chmod +x subbrute.py
-sudo cp subbrute.py /usr/bin
-cd ..
 
 echo -e "Installation completed." | lolcat
