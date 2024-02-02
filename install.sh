@@ -1,11 +1,14 @@
 #!/bin/bash
 
-echo -e "Installing all the required tools and dependencies" | lolcat
-echo -e "Be Patient and have a Scoop of Ice Cream" | lolcat
-echo -e "Version: v1.0             by Nikhil soni" | lolcat
-echo -e "Installing all the required tools and dependencies" | lolcat
+# Install lolcat
+sudo apt-get -y install lolcat
+lolcat -v
+echo -e "Installing all the required tools and dependencies" | lolcat -a -s 50 
+echo -e "Be Patient and have a Scoop of Ice Cream" | lolcat -a -s 50
+echo -e "Version: v1.0             by Nikhil soni" | lolcat -a -s 50 
+echo -e "Installing all the required tools and dependencies" | lolcat -a -s  50
 sleep 4s
-echo -e "\e[1;32m[================================================================================================================================================]" | lolcat |pv -qL 50
+echo -e "\e[1;32m[================================================================================================================================================]" | lolcat -a -s 10  | pv -qL 50 
 
 jp2a --colors --width=60 subscoop.png 
 echo ":'######:'##::::'##'########::'######::'######::'#######::'#######:'########:: 
@@ -15,7 +18,7 @@ echo ":'######:'##::::'##'########::'######::'######::'#######::'#######:'######
 :..... ##:##:::: ##:##.... ##:..... ##:##:::::::##:::: ##:##:::: ##:##.....:::
 '##::: ##:##:::: ##:##:::: ##'##::: ##:##::: ##:##:::: ##:##:::: ##:##::::::::
 . ######:. #######::########:. ######:. ######:. #######:. #######::##::::::::
-:......:::.......::........:::......:::......:::.......:::.......::..:::::::::" | lolcat
+:......:::.......::........:::......:::......:::.......:::.......::..:::::::::" | lolcat  -a -s 50
 
 # Install GO
 if [[ -z "$GOPATH" ]]; then
@@ -40,9 +43,6 @@ sudo apt-get install -y python-dnspython python-pip python3-pip python-setuptool
 
 # Install jp2a
 sudo apt -y install jp2a
-
-# Install lolcat
-sudo apt-get -y install lolcat
 
 # Install Cargojp2a
 sudo apt-get -y install cargo
@@ -115,4 +115,4 @@ pip3 install -r requirements.txt
 cd ..
 
 
-echo -e "Installation completed." | lolcat
+echo -e "Installation completed." | lolcat -a -s 100
